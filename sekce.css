@@ -628,6 +628,9 @@
 
 @media (max-width: 980px) {
   .kontakt { grid-template-columns: 1fr; }
+  /* Vytažení vizitky nahoru dává smysl jen vedle formuláře; pod ním by ho
+     překrylo. */
+  .vizitka { margin-top: 0; }
 }
 
 @media (max-width: 560px) {

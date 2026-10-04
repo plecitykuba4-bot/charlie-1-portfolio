@@ -406,30 +406,46 @@ a { color: inherit; text-decoration: none; }
 
 /* Úzké obrazovky ----------------------------------------------------- */
 @media (max-width: 900px) {
+  /* Na úzkém displeji se hero skládá pod sebe: text, portrét, karta.
+     Vedle sebe by portrét zakryl nadpis i tlačítko. */
   .hero {
     grid-template-columns: 1fr;
-    grid-template-rows: 1fr auto;
+    grid-template-rows: auto auto auto;
+    min-height: 0;
   }
 
-  .hero__warm { inset: 0 0 34% 0; }
-
-  .hero__portrait {
-    height: auto;
-    width: 92%;
-    left: 50%;
-    bottom: 30%;
-    transform: translateX(-50%);
-  }
+  .hero__panel { display: none; }
 
   .hero__left {
     grid-column: 1;
-    padding-right: var(--rail);
-    min-height: 66svh;
+    grid-row: 1;
+    z-index: 3;
+    padding: calc(var(--nav-h) + 18px) var(--rail) 0 var(--rail);
+  }
+
+  .hero__title { font-size: clamp(92px, 33vw, 200px); }
+
+  .trust { position: static; margin-top: 26px; }
+
+  .hero__portrait {
+    position: relative;
+    grid-row: 2;
+    left: auto;
+    bottom: auto;
+    justify-self: end;
+    width: min(88%, 460px);
+    height: auto;
+    margin-top: -4vw;
+    transform: translateY(var(--hloubka));
   }
 
   .hero__right {
     grid-column: 1;
+    grid-row: 3;
+    margin-top: -32px;
     padding: 28px var(--rail);
+    border-radius: 28px 28px 0 0;
+    background: var(--paper);
   }
 
   .quote { margin-top: 22px; }

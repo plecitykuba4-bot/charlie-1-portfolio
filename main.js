@@ -47,6 +47,8 @@ function dolad() {
   if (!hero || !title || !portret || !portret.complete) return;
 
   title.style.fontSize = '';
+  // Na mobilu stojí nadpis nad portrétem, takže se k hlavě nedolaďuje.
+  if (matchMedia('(max-width: 900px)').matches) return;
   const t = title.getBoundingClientRect();
   const p = portret.getBoundingClientRect();
   if (!t.width || !p.width) return;
