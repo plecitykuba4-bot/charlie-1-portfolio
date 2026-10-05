@@ -8,8 +8,10 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Anton&family=Bricolage+Grotesque:opsz,wght@12..96,700;12..96,800&family=Inter+Tight:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
 <link rel="stylesheet" href="styles.css">
 <link rel="stylesheet" href="sekce.css">
+<link rel="stylesheet" href="lightbox.css">
 </head>
 <body>
 
@@ -20,9 +22,9 @@
   </a>
   <nav class="nav__links">
     <a href="#prace">Portfolio</a>
-    <a href="#about">O mně</a>
-    <a href="#services">Služby</a>
-    <a href="#contact">Kontakt</a>
+    <a href="#o-mne">O mně</a>
+    <a href="#sluzby">Služby</a>
+    <a href="#kontakt">Kontakt</a>
   </nav>
   <button class="nav__burger" type="button" aria-label="Menu">
     <span></span><span></span>
@@ -54,15 +56,6 @@
   <aside class="hero__right">
     <p class="avail">K dispozici pro</p>
     <p class="avail__what">Freelance<br>projekty</p>
-
-    <figure class="quote">
-      <span class="quote__mark" aria-hidden="true">&ldquo;</span>
-      <blockquote>Karel odvedl práci, která předčila naše očekávání.</blockquote>
-      <figcaption>
-        <span class="quote__avatar" aria-hidden="true"></span>
-        <span class="quote__name">Jan Novák</span>
-      </figcaption>
-    </figure>
   </aside>
 </section>
 
@@ -140,8 +133,8 @@
       <p>AI automatizace / weby / UX/UI / frontend / backend.</p></div></li>
     <li><span class="osa__rok">od 2026</span><div><h3>Offsidestore</h3>
       <p>Značka / e-commerce / social media / content.</p></div></li>
-    <li><span class="osa__rok">od 2026</span><div><h3>Akviziční zpracování pro realitní makléře</h3>
-      <p>Pasivní systém na šetření času makléřům.</p></div></li>
+    <li><span class="osa__rok">od 2026</span><div><h3>Projectone</h3>
+      <p>Weby, aplikace a automatizace pro firmy.</p></div></li>
     </ol>
 
     <figure class="cesta__foto">
@@ -164,11 +157,23 @@
     </ul>
   </header>
 
-  <!-- Instagramový carousel zůstává vodorovný, protože tak ho čtou i lidé na IG. -->
-  <article class="blok">
-    <div class="blok__hlava">
-      <h3>Jak šel čas?</h3>
-      <p>Carousel pro Instagram. Cesta napříč všemi MS, kde ČR a ČSSR získalo zlato, seřazená chronologicky. Deset snímků.</p>
+  <!-- Instagramový carousel zůstává vodorovný, protože tak ho čtou i lidé na IG.
+       Šipky ho posouvají, kliknutí na snímek ho zvětší. -->
+  <article class="blok" data-galerie>
+    <div class="blok__hlava blok__hlava--sipky">
+      <div>
+        <p class="blok__druh">Ukázka postů · Instagram</p>
+        <h3>Jak šel čas?</h3>
+        <p>Cesta napříč všemi MS, kde ČR a ČSSR získalo zlato, seřazená chronologicky. Deset snímků, kliknutím je zvětšíte.</p>
+      </div>
+      <div class="pruvod__sipky">
+        <button type="button" class="pruvod__sipka" data-smer="-1" aria-label="Předchozí snímky">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <button type="button" class="pruvod__sipka" data-smer="1" aria-label="Další snímky">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+      </div>
     </div>
     <div class="pruvod" tabindex="0">
       <figure><img src="assets/img/prace/cas-00-cover.webp" alt="Jak šel čas, úvodní slide" decoding="async"></figure>
@@ -184,17 +189,15 @@
     </div>
   </article>
 
-  <!-- Pět dílů Green Line, pět buněk. Žádná prázdná. -->
-  <article class="blok">
+  <!-- Pět dílů Green Line, pět stejně velkých buněk: žádný není hlavní. -->
+  <article class="blok" data-galerie>
     <div class="blok__hlava">
+      <p class="blok__druh">Ukázka postů · Instagram</p>
       <h3>Green Line</h3>
-      <p>Carousel pro Instagram o sovětské pětce, která byla nejděsivější v historii hokeje. Pět snímků.</p>
+      <p>Sovětská pětka, která byla nejděsivější v historii hokeje. Pět snímků, kliknutím je zvětšíte.</p>
     </div>
     <div class="bento">
-      <figure class="bento__velka">
-        <img src="assets/img/prace/green-1.webp" alt="Green Line, nejděsivější pětka" decoding="async">
-        
-      </figure>
+      <figure><img src="assets/img/prace/green-1.webp" alt="Green Line, nejděsivější pětka" decoding="async"></figure>
       <figure><img src="assets/img/prace/green-2.webp" alt="Ikonická trojice KLM Line" decoding="async"></figure>
       <figure><img src="assets/img/prace/green-3.webp" alt="Tichonovo peklo" decoding="async"></figure>
       <figure><img src="assets/img/prace/green-4.webp" alt="Fetisov a Kasatonov" decoding="async"></figure>
@@ -203,8 +206,9 @@
   </article>
 
   <!-- Šest náhledů v pravidelné mřížce; jsou to obrazovky, ne příběh. -->
-  <article class="blok">
+  <article class="blok" data-galerie>
     <div class="blok__hlava">
+      <p class="blok__druh">YouTube</p>
       <h3>Thumbnaily</h3>
       <p>Náhledové grafiky pro videa na YouTube. Musí fungovat v malém i přes celou obrazovku.</p>
     </div>
@@ -218,17 +222,19 @@
     </div>
   </article>
 
-  <!-- Značky patří na tmavý podklad, jinak splynou s papírem. -->
-  <article class="blok blok--tmavy">
+  <!-- Loga jsou vyříznutá do průhledných obrázků a stojí přímo na papíře,
+       všechna ve stejně velkém poli. -->
+  <article class="blok" data-galerie>
     <div class="blok__hlava">
-      <h3>Značka</h3>
-      <p>Logo redakce a logo videokanálu ve variantách pro tmavé i světlé podklady.</p>
+      <p class="blok__druh">Značka</p>
+      <h3>Loga</h3>
+      <p>Logo pro Boží kytky, logo BSK a logo videokanálu Deníku Hokeje v červené a černobílé variantě.</p>
     </div>
     <div class="znacky">
-      <figure><img src="assets/img/prace/green-1.webp" alt="Logo, varianta 1" decoding="async"></figure>
-      <figure><img src="assets/img/prace/logo-2.webp" alt="Logo, varianta 2" decoding="async"></figure>
-      <figure><img src="assets/img/prace/logo-kanal-cervene.webp" alt="Logo kanálu, červená varianta" decoding="async"></figure>
-      <figure><img src="assets/img/prace/logo-kanal-cernobile.webp" alt="Logo kanálu, černobílá varianta" decoding="async"></figure>
+      <figure><img src="assets/img/prace/loga/bozi-kytky.webp" alt="Logo Boží kytky, Martina Drexlerová" decoding="async"></figure>
+      <figure><img src="assets/img/prace/loga/bsk.webp" alt="Logo BSK" decoding="async"></figure>
+      <figure><img src="assets/img/prace/loga/dih-cervene.webp" alt="Logo kanálu Deníku Hokeje, červená varianta" decoding="async"></figure>
+      <figure><img src="assets/img/prace/loga/dih-cernobile.webp" alt="Logo kanálu Deníku Hokeje, černobílá varianta" decoding="async"></figure>
     </div>
   </article>
 </section>
@@ -361,6 +367,22 @@
   </div>
 </section>
 </main>
+
+<dialog class="lightbox" aria-label="Detail práce">
+  <figure class="lightbox__obraz">
+    <figcaption></figcaption>
+  </figure>
+  <button class="lightbox__zavrit" type="button" aria-label="Zavřít">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+  </button>
+  <button class="lightbox__sipka lightbox__sipka--zpet" type="button" aria-label="Předchozí">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+  </button>
+  <button class="lightbox__sipka lightbox__sipka--dal" type="button" aria-label="Další">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+  </button>
+  <p class="lightbox__pocet" aria-live="polite"></p>
+</dialog>
 
 <footer class="paticka">
   <p class="paticka__jmeno">Karel Drexler</p>

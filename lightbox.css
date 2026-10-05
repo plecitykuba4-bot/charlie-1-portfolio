@@ -1,0 +1,102 @@
+/* Lightbox na zvětšení prací. Tokeny přicházejí ze styles.css. */
+
+[data-galerie] figure img { cursor: zoom-in; }
+
+.lightbox {
+  width: 100vw;
+  max-width: none;
+  height: 100svh;
+  max-height: none;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--paper);
+  overflow: hidden;
+}
+
+.lightbox::backdrop {
+  background: rgba(12, 9, 7, .92);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+}
+
+.lightbox[open] { display: grid; place-items: center; }
+
+.lightbox__obraz {
+  margin: 0;
+  display: grid;
+  justify-items: center;
+  gap: 14px;
+  animation: lightbox-in .5s cubic-bezier(.16, 1, .3, 1);
+}
+
+.lightbox__obraz img {
+  display: block;
+  max-width: min(90vw, 1400px);
+  max-height: 82svh;
+  object-fit: contain;
+  border-radius: 14px;
+  box-shadow: 0 40px 80px rgba(0, 0, 0, .5);
+}
+
+.lightbox__obraz.meni img { animation: lightbox-in .4s cubic-bezier(.16, 1, .3, 1); }
+
+@keyframes lightbox-in { from { opacity: 0; transform: scale(.95); } }
+
+.lightbox figcaption {
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, .72);
+}
+
+.lightbox__zavrit,
+.lightbox__sipka {
+  position: fixed;
+  display: grid;
+  place-content: center;
+  width: 52px;
+  height: 52px;
+  border: 1px solid rgba(255, 255, 255, .2);
+  border-radius: 50%;
+  background: rgba(255, 255, 255, .08);
+  color: var(--paper);
+  cursor: pointer;
+  transition: background .3s, transform .45s cubic-bezier(.22, 1.4, .36, 1);
+}
+
+.lightbox__zavrit svg,
+.lightbox__sipka svg { width: 22px; height: 22px; }
+
+.lightbox__zavrit:hover,
+.lightbox__sipka:hover { background: var(--orange-600); transform: scale(1.06); }
+
+.lightbox__zavrit { top: 20px; right: 20px; }
+.lightbox__sipka { top: 50%; margin-top: -26px; }
+.lightbox__sipka--zpet { left: 20px; }
+.lightbox__sipka--dal { right: 20px; }
+
+.lightbox__pocet {
+  position: fixed;
+  left: 24px;
+  top: 30px;
+  margin: 0;
+  font-family: var(--hero-face);
+  font-size: 18px;
+  letter-spacing: .04em;
+  color: rgba(255, 255, 255, .72);
+}
+
+.lightbox--sam .lightbox__sipka,
+.lightbox--sam .lightbox__pocet { display: none; }
+
+@media (max-width: 720px) {
+  .lightbox__sipka { top: auto; bottom: 22px; margin-top: 0; }
+  .lightbox__obraz img { max-height: 72svh; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .lightbox__obraz, .lightbox__obraz.meni img { animation: none; }
+}

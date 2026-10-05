@@ -239,3 +239,97 @@ if (formular && hlaska) {
     }
   });
 }
+
+
+/* Lightbox --------------------------------------------------------------
+ *
+ * Každý blok s data-galerie je jedna galerie. Šipky a klávesy listují
+ * jen v ní, na dotyku se dá táhnout prstem.
+ */
+const lightbox = document.querySelector('.lightbox');
+const galerie = new Map();
+
+if (lightbox && typeof lightbox.showModal === 'function') {
+  const obraz = lightbox.querySelector('.lightbox__obraz');
+  // Obrázek vzniká až tady: v HTML by bez src visel rozbitý.
+  const img = document.createElement('img');
+  obraz.prepend(img);
+  const popis = obraz.querySelector('figcaption');
+  const pocet = lightbox.querySelector('.lightbox__pocet');
+  let aktivni = [];
+  let index = 0;
+
+  const ukaz = (i, animuj = true) => {
+    index = (i + aktivni.length) % aktivni.length;
+    const zdroj = aktivni[index];
+    img.src = zdroj.src;
+    img.alt = zdroj.alt;
+    popis.textContent = zdroj.alt;
+    pocet.textContent = String(index + 1).padStart(2, '0') + ' / ' + String(aktivni.length).padStart(2, '0');
+    if (animuj) {
+      obraz.classList.remove('meni');
+      void obraz.offsetWidth;
+      obraz.classList.add('meni');
+    }
+  };
+
+  window.otevriGalerii = (blok, i) => {
+    aktivni = galerie.get(blok) || [];
+    if (!aktivni.length) return;
+    lightbox.classList.toggle('lightbox--sam', aktivni.length < 2);
+    ukaz(i, false);
+    lightbox.showModal();
+  };
+
+  document.querySelectorAll('[data-galerie]').forEach((blok) => {
+    const obrazky = [...blok.querySelectorAll('figure img')];
+    galerie.set(blok, obrazky.map((i) => ({ src: i.currentSrc || i.src, alt: i.alt })));
+    obrazky.forEach((i, n) => i.addEventListener('click', () => window.otevriGalerii(blok, n)));
+  });
+
+  lightbox.querySelector('.lightbox__zavrit').addEventListener('click', () => lightbox.close());
+  lightbox.querySelector('.lightbox__sipka--zpet').addEventListener('click', () => ukaz(index - 1));
+  lightbox.querySelector('.lightbox__sipka--dal').addEventListener('click', () => ukaz(index + 1));
+  lightbox.addEventListener('click', (e) => { if (e.target === lightbox) lightbox.close(); });
+  lightbox.addEventListener('keydown', (e) => {
+    if (e.key === 'ArrowLeft') ukaz(index - 1);
+    if (e.key === 'ArrowRight') ukaz(index + 1);
+  });
+  lightbox.addEventListener('close', () => { img.removeAttribute('src'); });
+
+  let dotyk = null;
+  lightbox.addEventListener('touchstart', (e) => { dotyk = e.touches[0].clientX; }, { passive: true });
+  lightbox.addEventListener('touchend', (e) => {
+    if (dotyk === null) return;
+    const dx = e.changedTouches[0].clientX - dotyk;
+    if (Math.abs(dx) > 50) ukaz(index + (dx < 0 ? 1 : -1));
+    dotyk = null;
+  });
+}
+
+
+/* Šipky u průvodu -------------------------------------------------------
+ *
+ * Posunou carousel o dva snímky. Na krajích zešednou, ať je jasné, že
+ * dál už nic není.
+ */
+document.querySelectorAll('.blok__hlava--sipky').forEach((hlava) => {
+  const pruvod = hlava.parentElement.querySelector('.pruvod');
+  const tlacitka = [...hlava.querySelectorAll('.pruvod__sipka')];
+  if (!pruvod) return;
+  const krok = () => {
+    const f = pruvod.querySelector('figure');
+    return f ? (f.offsetWidth + parseFloat(getComputedStyle(pruvod).columnGap || 16)) * 2 : 300;
+  };
+  const stav = () => {
+    const konec = pruvod.scrollWidth - pruvod.clientWidth - 2;
+    tlacitka[0].disabled = pruvod.scrollLeft <= 2;
+    tlacitka[1].disabled = pruvod.scrollLeft >= konec;
+  };
+  tlacitka.forEach((b) => b.addEventListener('click', () => {
+    pruvod.scrollBy({ left: Number(b.dataset.smer) * krok(), behavior: jemnyPohyb.matches ? 'auto' : 'smooth' });
+  }));
+  pruvod.addEventListener('scroll', stav, { passive: true });
+  addEventListener('resize', stav);
+  stav();
+});

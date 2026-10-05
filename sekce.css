@@ -390,6 +390,8 @@
   gap: clamp(12px, 1.6vw, 20px);
   overflow-x: auto;
   scroll-snap-type: x mandatory;
+  /* Snímky se přichytávají k okraji obsahu, ne k okraji okna. */
+  scroll-padding-inline: var(--rail);
   margin: 0 calc(-1 * var(--rail));
   padding: 0 var(--rail) 14px;
   scrollbar-width: thin;
@@ -405,19 +407,14 @@
   scroll-snap-align: start;
 }
 
-/* 2. Bento: pět dílů pětky, pět buněk, žádná prázdná.
-   Snímky jsou na výšku (4:5), takže i buňky musí mít ten poměr — jinak
-   `cover` uřízne právě ten titulek, kvůli kterému se na ně člověk dívá.
-   Čtyři sloupce krát dva řádky v poměru 1,6 dají každé buňce 4:5. */
+/* 2. Green Line: pět stejných snímků vedle sebe, žádný není hlavní. */
 .bento {
   display: grid;
   gap: clamp(10px, 1.4vw, 18px);
-  grid-template-columns: repeat(4, 1fr);
-  grid-template-rows: repeat(2, 1fr);
-  aspect-ratio: 1.6;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
 }
 
-.bento__velka { grid-column: span 2; grid-row: span 2; }
+.bento figure { aspect-ratio: 4 / 5; }
 
 /* 3. Pravidelná mřížka pro náhledy, které jsou samy o sobě obrazovky. */
 .mrizka {
@@ -428,47 +425,42 @@
 
 .mrizka figure { aspect-ratio: 16 / 9; }
 
-/* 4. Značky na tmavém podkladu, jinak splynou s papírem. */
-.blok--tmavy {
-  padding: clamp(28px, 4vw, 52px);
-  border-radius: 24px;
-  background: var(--ink);
-  color: var(--paper);
-}
-
-.blok--tmavy .blok__hlava p { color: rgba(255, 255, 255, .62); }
-
+/* 4. Loga: průhledná, každé ve stejně velkém čtverci přímo na papíře. */
 .znacky {
   display: grid;
-  gap: clamp(10px, 1.4vw, 18px);
-  grid-template-columns: repeat(4, 1fr);
+  gap: clamp(16px, 3vw, 48px);
+  grid-template-columns: repeat(4, minmax(0, 1fr));
 }
 
-.znacky figure { background: rgba(255, 255, 255, .06); }
-
-.znacky figure img { aspect-ratio: 1 / 1; }
+.znacky figure {
+  aspect-ratio: 1;
+  display: grid;
+  place-items: center;
+  background: none;
+}
 
 .znacky img {
-  height: auto;
+  width: 82%;
+  height: 82%;
   object-fit: contain;
-  padding: clamp(14px, 2vw, 26px);
 }
 
 @media (max-width: 900px) {
+  /* Pět snímků se na úzkém displeji nevejde, posouvají se do strany. */
   .bento {
-    grid-template-columns: repeat(2, 1fr);
-    grid-template-rows: none;
-    aspect-ratio: auto;
+    display: flex;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    margin: 0 calc(-1 * var(--rail));
+    padding: 0 var(--rail) 14px;
   }
-  .bento figure { aspect-ratio: 4 / 5; }
-  .bento__velka { grid-column: span 2; grid-row: span 1; aspect-ratio: 8 / 5; }
+  .bento figure { flex: 0 0 62%; scroll-snap-align: start; }
   .mrizka { grid-template-columns: repeat(2, 1fr); }
   .znacky { grid-template-columns: repeat(2, 1fr); }
 }
 
 @media (max-width: 560px) {
-  .bento, .mrizka { grid-template-columns: 1fr; }
-  .bento__velka { grid-column: span 1; aspect-ratio: 4 / 5; }
+  .mrizka { grid-template-columns: 1fr; }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -1026,4 +1018,55 @@ a, button, input, textarea { touch-action: manipulation; }
 
 @media (prefers-reduced-motion: reduce) {
   .btn--pracuje::after { animation: none; }
+}
+
+
+/* Druh práce nad nadpisem bloku a čitelnější popis. */
+.blok__druh {
+  margin: 0 0 10px !important;
+  font-size: 12px !important;
+  font-weight: 600;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--orange-600) !important;
+}
+
+.blok__hlava p { font-size: 16px; }
+
+/* Nadpis bloku se šipkami průvodu vpravo. */
+.blok__hlava--sipky {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.pruvod__sipky { display: flex; gap: 10px; flex-shrink: 0; }
+
+.pruvod__sipka {
+  display: grid;
+  place-content: center;
+  width: 48px;
+  height: 48px;
+  padding: 0;
+  border: 1px solid #ddd6cd;
+  border-radius: 50%;
+  background: var(--paper);
+  color: var(--ink);
+  cursor: pointer;
+  transition: background .3s, color .3s, border-color .3s, opacity .3s;
+}
+
+.pruvod__sipka svg { width: 20px; height: 20px; }
+
+.pruvod__sipka:hover:not([disabled]) {
+  border-color: transparent;
+  background: var(--orange-600);
+  color: var(--paper);
+}
+
+.pruvod__sipka[disabled] { opacity: .35; cursor: default; }
+
+@media (max-width: 560px) {
+  .pruvod__sipky { display: none; }
 }
