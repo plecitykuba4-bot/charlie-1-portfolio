@@ -297,43 +297,6 @@ a { color: inherit; text-decoration: none; }
   .btn { --btn-zvednuti: 0px; --btn-stisk: 1; }
 }
 
-/* Trust pás ---------------------------------------------------------- */
-.trust {
-  position: absolute;
-  left: var(--rail-hero);
-  bottom: clamp(62px, 13vh, 124px);
-  display: flex;
-  align-items: center;
-  gap: 16px;
-}
-
-.trust__faces { display: flex; }
-
-.trust__faces > span {
-  width: 38px;
-  height: 38px;
-  margin-right: -11px;
-  border-radius: 50%;
-  border: 2px solid rgba(255, 255, 255, .85);
-  background: linear-gradient(140deg, var(--orange-400), var(--orange-900));
-}
-
-.trust__more {
-  display: grid;
-  place-content: center;
-  font-size: 11.5px;
-  font-weight: 600;
-  color: var(--paper);
-  background: rgba(0, 0, 0, .35) !important;
-}
-
-.trust p {
-  margin: 0;
-  font-size: 12.5px;
-  line-height: 1.4;
-  color: rgba(255, 255, 255, .8);
-}
-
 /* Pravý sloupec ------------------------------------------------------ */
 .hero__right {
   position: relative;
@@ -428,8 +391,6 @@ a { color: inherit; text-decoration: none; }
   .hero__lede { margin-top: 18px; }
   .hero__left .btn { margin-top: 20px; }
 
-  .trust { position: static; margin-top: 18px; }
-
   .hero__portrait {
     position: relative;
     grid-row: 2;
@@ -440,7 +401,7 @@ a { color: inherit; text-decoration: none; }
     height: auto;
     /* Výš a bez paralaxy: posun při scrollu by hlavu zasunul pod kartu
        a ta by usekla krk. */
-    margin-top: -26vw;
+    margin-top: -12vw;
     margin-bottom: 8px;
     transform: none;
   }
